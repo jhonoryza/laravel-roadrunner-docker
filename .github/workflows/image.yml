@@ -1,11 +1,11 @@
 name: 'Build php docker image for laravel roadrunner'
 
 on:
-    watch:
-        types: [started]
-    #push:
-    #    branches:
-    #        - master
+    #watch:
+    #    types: [started]
+    push:
+        branches:
+            - master
 
 jobs:
     release:
