@@ -1,0 +1,27 @@
+version: "3"
+
+volumes:
+  vendors:
+    external: true 
+
+services:
+  nginx:
+    image: jhonoryza/nginx:laravel-alpine
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html
+      - ./mydocker/nginx/conf/nginx.conf:/etc/nginx/conf/nginx.conf
+      - ./mydocker/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+
+  fpm:
+    image: jhonoryza/php:ubuntu-7.4-swoole
+    user: laravel
+    working_dir: /var/www/html
+    volumes:
+      - vendors:/var/www/html/vendors
+      - ./src:/var/www/html
+    #ports:
+    #  - "1215:1215" # Swoole port
+    command: bash -c "php artisan swoole:http start"
